@@ -47,7 +47,7 @@ public class AutheticationService {
         return activeSessions.size() != 0;
     }
 
-    public boolean checkAuthenticationSessionExsists(String username) {
+    public boolean checkAuthenticationSessionExists(String username) {
         List<AuthenticationSessionModel> activeSessions = authenticationSessionRepository.findAll().stream()
                 .filter(x -> (x.getUsername().equals(username)))
                 .collect(Collectors.toList());
