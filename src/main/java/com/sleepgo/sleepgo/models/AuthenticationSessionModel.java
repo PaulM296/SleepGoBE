@@ -15,7 +15,8 @@ public class AuthenticationSessionModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     int id;
-    int user_id;
+    @Column(name = "user_id")
+    int userID;
     String username;
     String token;
     @Column(name = "created_at")
@@ -28,19 +29,19 @@ public class AuthenticationSessionModel {
         if(o == null || getClass() != o.getClass())
             return false;
         AuthenticationSessionModel that = (AuthenticationSessionModel) o;
-        return id == that.id && user_id == that.user_id && Objects.equals(username, that.username) && Objects.equals(token, that.token) && Objects.equals(createdAt, that.createdAt);
+        return id == that.id && userID == that.userID && Objects.equals(username, that.username) && Objects.equals(token, that.token) && Objects.equals(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user_id, username, token, createdAt);
+        return Objects.hash(id, userID, username, token, createdAt);
     }
 
     @Override
     public String toString() {
         return "AuthenticationSessionModel{" +
                 "id=" + id +
-                ", user_id=" + user_id +
+                ", userID=" + userID +
                 ", username='" + username + '\'' +
                 ", token='" + token + '\'' +
                 ", createdAt=" + createdAt +
