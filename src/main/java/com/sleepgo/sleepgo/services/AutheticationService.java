@@ -5,8 +5,11 @@ import com.sleepgo.sleepgo.models.AuthenticationSessionModel;
 import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.repositories.AuthenticationSessionRepository;
 import com.sleepgo.sleepgo.repositories.UserRepository;
-import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +20,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class AutheticationService {
 
     @Resource
@@ -24,6 +28,9 @@ public class AutheticationService {
 
     @Resource
     AuthenticationSessionRepository authenticationSessionRepository;
+
+    @Value("${sleepgo.auth.expiration}")
+    String expirationDeltaString;
 
     public String encodePassword(String password, String saltString) {
         byte[] hash = new byte[0];
@@ -61,6 +68,16 @@ public class AutheticationService {
     public void deleteSession(String username, String token) throws UserNotFoundException {
         AuthenticationSessionModel session = getByUsernameAndToken(username, token);
         authenticationSessionRepository.deleteById(session.getId());
+    }
+
+    @Scheduled(fixedRateString = "${sleepgo.auth.refresh.rate}", initialDelay = 1000)
+    public void cleanupAuthenticationSessions() throws UserNotFoundException {
+        List<AuthenticationSessionModel> authenticationSessions = authenticationSessionRepository.findAll();
+        for(AuthenticationSessionModel s : authenticationSessions) {
+            if((System.currentTimeMillis() - s.getCreatedAt().getTime()) >= Long.parseLong(expirationDeltaString)) {
+                deleteSession(s.getUsername(), s.getToken());
+            }
+        }
     }
 
     private AuthenticationSessionModel getByUsernameAndToken(String username, String token) throws UserNotFoundException {

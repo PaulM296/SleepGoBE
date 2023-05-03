@@ -1,9 +1,9 @@
 package com.sleepgo.sleepgo.models;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -18,6 +18,7 @@ public class AuthenticationSessionModel {
     int user_id;
     String username;
     String token;
+    @Column(name = "created_at")
     Timestamp createdAt;
 
     @Override

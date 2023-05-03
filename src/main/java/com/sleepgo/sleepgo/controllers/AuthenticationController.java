@@ -6,16 +6,17 @@ import com.sleepgo.sleepgo.models.AuthenticationTokenModel;
 import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.services.AutheticationService;
 import com.sleepgo.sleepgo.services.UserService;
-import jakarta.annotation.Resource;
 import org.hibernate.SessionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
     @Resource
     AutheticationService autheticationService;

@@ -3,11 +3,12 @@ package com.sleepgo.sleepgo.services;
 import com.sleepgo.sleepgo.exceptions.UserNotFoundException;
 import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.repositories.UserRepository;
-import jakarta.annotation.Resource;
-import org.apache.catalina.User;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class UserService {
 
     @Resource
