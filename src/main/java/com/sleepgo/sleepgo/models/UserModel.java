@@ -5,12 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Objects;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
 @Entity
+@Data
 @Table(name = "appuser")
 public class UserModel {
     @GeneratedValue(strategy= GenerationType.IDENTITY)

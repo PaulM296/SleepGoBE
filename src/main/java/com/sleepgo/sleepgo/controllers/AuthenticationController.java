@@ -31,7 +31,7 @@ public class AuthenticationController {
             AuthenticationSessionModel authenticationSession = new AuthenticationSessionModel();
             String token = UUID.randomUUID().toString();
             authenticationSession.setToken(token);
-            authenticationSession.setUser_id(dbuser.getId());
+            authenticationSession.setUserId(dbuser.getId());
             authenticationSession.setUsername(dbuser.getUsername());
             authenticationSession.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             autheticationService.saveAuthenticationSession(authenticationSession);
