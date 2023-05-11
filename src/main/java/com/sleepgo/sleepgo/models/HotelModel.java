@@ -24,5 +24,5 @@ public class HotelModel {
     private String country;
     private String city;
     private String address;
-    private String zip_code;
+    private String zipCode;
 }
