@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/hotel")
+@RequestMapping("/api/hotel")
 public class HotelController {
     @Resource
     private HotelService hotelService;
@@ -27,7 +27,7 @@ public class HotelController {
         return hotel;
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<HotelModel> getAllHotels() {
         List<HotelModel> hotels = hotelService.getAllHotels();
         return hotels;

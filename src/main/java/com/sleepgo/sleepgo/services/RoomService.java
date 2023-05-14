@@ -20,6 +20,12 @@ public class RoomService {
     @Resource
     private HotelService  hotelService;
 
+    public RoomModel addRoom(RoomModel room) throws HotelNotFoundException {
+        HotelModel hotel = hotelService.getHotelById(room.getHotelId());
+        room.setHotelId(hotel.getHotelId());
+        return roomRepository.save(room);
+    }
+
     public RoomModel getRoomById(int roomId) throws RoomNotFoundException {
         Optional<RoomModel> optionalRoom = roomRepository.findByRoomId(roomId);
         if(optionalRoom.isPresent()) {

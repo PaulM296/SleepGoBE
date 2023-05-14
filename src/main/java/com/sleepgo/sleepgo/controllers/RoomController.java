@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/api/room")
 public class RoomController {
     @Resource
     private RoomService roomService;
@@ -21,8 +21,8 @@ public class RoomController {
         return roomService.getRoomById(roomId);
     }
 
-    @GetMapping("/hotel/{id}")
-    public List<RoomModel> getRoomsByHotelId(@PathVariable("id") int hotelId) {
+    @GetMapping("/getByHotelId")
+    public List<RoomModel> getRoomsByHotelId(@RequestParam int hotelId) {
         return roomService.getRoomsByHotelId(hotelId);
     }
 
@@ -39,5 +39,10 @@ public class RoomController {
     @GetMapping("/roomtype/{roomType}")
     public List<RoomModel> findAllRoomsByRoomType(@PathVariable String roomType) throws RoomTypeNotFound {
         return roomService.findAllRoomsByRoomType(roomType);
+    }
+
+    @PostMapping
+    public RoomModel addRoom(@RequestBody RoomModel room) throws HotelNotFoundException {
+        return roomService.addRoom(room);
     }
 }
