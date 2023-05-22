@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -25,7 +26,9 @@ public class AuthenticationController {
     UserService userService;
 
     @PostMapping("/login")
-    public AuthenticationTokenModel login(@RequestParam String username, @RequestParam String password) throws UserNotFoundException, InvalidCredentialsException {
+    public AuthenticationTokenModel login(@RequestBody Map<String, String> credentials) throws UserNotFoundException, InvalidCredentialsException {
+        String username = credentials.get("username");
+        String password = credentials.get("password");
         UserModel dbuser = userService.getByUsername(username);
         if(autheticationService.encodePassword(password, username).equals(dbuser.getPassword())) {
             AuthenticationSessionModel authenticationSession = new AuthenticationSessionModel();
