@@ -1,12 +1,16 @@
 package com.sleepgo.sleepgo.services;
 
+import com.sleepgo.sleepgo.exceptions.HotelNotFoundException;
 import com.sleepgo.sleepgo.exceptions.UserNotFoundException;
+import com.sleepgo.sleepgo.models.HotelModel;
 import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.repositories.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,6 +25,26 @@ public class UserService {
         return result.get(0);
     }
     public UserModel saveUser(UserModel user) {
+        return userRepository.save(user);
+    }
+
+    public UserModel getUserById(int userId) throws UserNotFoundException {
+        Optional<UserModel> optionalUser = userRepository.findByUserId(userId);
+        if(optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else {
+            throw new UserNotFoundException(String.format("User with ID %d not found", userId));
+        }
+    }
+
+    public UserModel updateUser(int userId, UserModel updatedUser) throws UserNotFoundException {
+        UserModel user = getUserById(userId);
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
+        user.setEmail(updatedUser.getEmail());
+        user.setPhoneNumber(updatedUser.getPhoneNumber());
+        user.setUsername(updatedUser.getUsername());
+        user.setPassword(updatedUser.getPassword());
         return userRepository.save(user);
     }
 }

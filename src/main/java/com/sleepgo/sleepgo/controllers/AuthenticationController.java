@@ -8,6 +8,7 @@ import com.sleepgo.sleepgo.services.AutheticationService;
 import com.sleepgo.sleepgo.services.UserService;
 import org.hibernate.SessionException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
