@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public UserModel getUserById(int userId) throws UserNotFoundException {
-        Optional<UserModel> optionalUser = userRepository.findByUserId(userId);
+        Optional<UserModel> optionalUser = userRepository.findById(userId);
         if(optionalUser.isPresent()) {
             return optionalUser.get();
         } else {
