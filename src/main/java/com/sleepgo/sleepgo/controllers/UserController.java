@@ -1,5 +1,6 @@
 package com.sleepgo.sleepgo.controllers;
 
+import com.sleepgo.sleepgo.exceptions.HotelNotFoundException;
 import com.sleepgo.sleepgo.exceptions.UserNotFoundException;
 import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.repositories.UserRepository;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user-account")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private UserRepository userRepository;
@@ -29,6 +31,11 @@ public class UserController {
     public UserModel updateUser(@PathVariable("id") int userId, @RequestBody UserModel updatedUser) throws UserNotFoundException {
         UserModel user = userService.updateUser(userId, updatedUser);
         return user;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUserById(@PathVariable("id") int userId) throws UserNotFoundException {
+        userService.deleteUserById(userId);
     }
 
 }

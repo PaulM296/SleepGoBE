@@ -48,4 +48,8 @@ public class ReservationService {
         ReservationModel reservation = getReservationById(reservationId);
         reservationRepository.delete(reservation);
     }
+
+    public void deleteReservationsByUserId(int userId) {
+        reservationRepository.deleteByUserId(userId);
+    }
 }

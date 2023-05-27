@@ -38,4 +38,5 @@ public class ReservationController {
     public void deleteReservation(@PathVariable(value = "id") int id) throws ReservationNotFoundException {
         reservationService.deleteReservation(id);
     }
+
 }

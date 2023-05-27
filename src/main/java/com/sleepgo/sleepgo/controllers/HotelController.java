@@ -2,6 +2,7 @@ package com.sleepgo.sleepgo.controllers;
 
 import com.sleepgo.sleepgo.exceptions.HotelNotFoundException;
 import com.sleepgo.sleepgo.models.HotelModel;
+import com.sleepgo.sleepgo.models.RoomModel;
 import com.sleepgo.sleepgo.services.HotelService;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +37,10 @@ public class HotelController {
     @DeleteMapping("/{id}")
     public void deleteHotelById(@PathVariable("id") int hotelId) throws HotelNotFoundException {
         hotelService.deleteHotelById(hotelId);
+    }
+
+    @PostMapping
+    public HotelModel addHotel(@RequestBody HotelModel hotel) {
+        return hotelService.saveHotel(hotel);
     }
 }
