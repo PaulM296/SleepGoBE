@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<ReviewModel, Integer> {
-    ReviewModel save(ReviewModel review);   // mai trebuie vazut aici
+//    ReviewModel save(ReviewModel review);
     List<ReviewModel> findByHotelId(int hotelId);
     List<ReviewModel> findByRoomId(int roomId);
+
+    List<ReviewModel> deleteById(int reviewId);
 }
