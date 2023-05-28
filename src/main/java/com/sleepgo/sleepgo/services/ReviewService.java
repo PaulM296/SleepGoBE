@@ -30,4 +30,8 @@ public class ReviewService {
     public void deleteReview(int reviewId) {
         reviewRepository.deleteById(reviewId);
     }
+
+    public void deleteReviewByUserId(int userId) {
+        reviewRepository.deleteByUserId(userId);
+    }
 }

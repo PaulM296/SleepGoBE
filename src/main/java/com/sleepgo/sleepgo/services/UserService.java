@@ -18,6 +18,8 @@ public class UserService {
     @Resource
     private ReservationService reservationService;
     @Resource
+    private ReviewService reviewService;
+    @Resource
     UserRepository userRepository;
     public UserModel getByUsername(String username) throws UserNotFoundException {
         List<UserModel> result = userRepository.findByUsername(username);
@@ -53,6 +55,8 @@ public class UserService {
     @Transactional
     public void deleteUserById(int userId) throws UserNotFoundException {
         reservationService.deleteReservationsByUserId(userId);
+
+        reviewService.deleteReviewByUserId(userId);
 
         UserModel user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
