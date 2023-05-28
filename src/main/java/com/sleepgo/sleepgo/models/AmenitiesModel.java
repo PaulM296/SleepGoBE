@@ -1,16 +1,12 @@
 package com.sleepgo.sleepgo.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "amenities")
 public class AmenitiesModel {
@@ -23,5 +19,8 @@ public class AmenitiesModel {
     private boolean pool;
     private boolean fitness;
     private boolean restaurant;
-
+    @Column(name = "wi_fi")
+    private boolean wiFi;
+    @Column(name = "room_service")
+    private boolean bar;
 }
