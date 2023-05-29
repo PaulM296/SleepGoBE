@@ -41,14 +41,13 @@ public class UserService {
         }
     }
 
-    public UserModel updateUser(int userId, UserModel updatedUser) throws UserNotFoundException {
-        UserModel user = getUserById(userId);
+    public UserModel updateUser(String username, UserModel updatedUser) throws UserNotFoundException {
+        UserModel user = getByUsername(username);
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
         user.setPhoneNumber(updatedUser.getPhoneNumber());
-        user.setUsername(updatedUser.getUsername());
-        user.setPassword(updatedUser.getPassword());
+//        user.setPassword(updatedUser.getPassword());
         return userRepository.save(user);
     }
 

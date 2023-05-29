@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface AuthenticationSessionRepository extends JpaRepository<AuthenticationSessionModel, Integer> {
     List<AuthenticationSessionModel> findByUsername(String username);
+
 }

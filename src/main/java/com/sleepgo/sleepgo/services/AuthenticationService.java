@@ -1,6 +1,7 @@
 package com.sleepgo.sleepgo.services;
 
 import com.sleepgo.sleepgo.exceptions.UserNotFoundException;
+import com.sleepgo.sleepgo.models.AmenitiesModel;
 import com.sleepgo.sleepgo.models.AuthenticationSessionModel;
 import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.repositories.AuthenticationSessionRepository;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AutheticationService {
+public class AuthenticationService {
 
     @Resource
     UserRepository userRepository;
