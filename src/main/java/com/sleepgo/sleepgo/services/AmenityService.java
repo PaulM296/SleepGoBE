@@ -1,18 +1,20 @@
 package com.sleepgo.sleepgo.services;
 
+import com.sleepgo.sleepgo.exceptions.AmenityAlreadyExistsException;
 import com.sleepgo.sleepgo.exceptions.AmenityNotFoundException;
 import com.sleepgo.sleepgo.models.AmenitiesModel;
+import com.sleepgo.sleepgo.models.RoomModel;
 import com.sleepgo.sleepgo.repositories.AmenityRepository;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AmenityService {
-
+    @Resource
     private AmenityRepository amenityRepository;
-
     public List<AmenitiesModel> getAllAmenities() {
         return amenityRepository.findAll();
     }
@@ -30,7 +32,11 @@ public class AmenityService {
         return amenityRepository.save(amenity);
     }
 
-    public void deleteAmenity(int amenityId) {
+    public List<AmenitiesModel> getAmenitiesByHotelId(int hotelId) {
+        return amenityRepository.findByHotelId(hotelId);
+    }
+
+    public void deleteAmenity(int amenityId) throws AmenityNotFoundException {
         amenityRepository.deleteById(amenityId);
     }
 }

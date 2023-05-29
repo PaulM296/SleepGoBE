@@ -22,5 +22,6 @@ public class AmenitiesModel {
     @Column(name = "wi_fi")
     private boolean wiFi;
     @Column(name = "room_service")
+    private boolean roomService;
     private boolean bar;
 }
