@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RestExceptionHandler {
     @ResponseBody
-    @ExceptionHandler(value = {UserNotFoundException.class, ReviewNotFoundException.class})
+    @ExceptionHandler(value = {UserNotFoundException.class, ReviewNotFoundException.class, AmenityNotFoundException.class,
+        HotelNotFoundException.class, ReservationNotFoundException.class, ReviewNotFoundException.class, RoomTypeNotFound.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     RestExceptionModel notFoundExceptionHandler(Exception e) {
         return new RestExceptionModel(e.getMessage());
@@ -33,7 +34,8 @@ public class RestExceptionHandler {
     }
 
     @ResponseBody
-    @ExceptionHandler(value = {UserAlreadyExistsException.class, EmailAlreadyExistsException.class})
+    @ExceptionHandler(value = {UserAlreadyExistsException.class, EmailAlreadyExistsException.class, AmenityAlreadyExistsException.class,
+        RoomAlreadyBookedException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     RestExceptionModel conflictExceptionHandler(Exception e) {
         return new RestExceptionModel(e.getMessage());
