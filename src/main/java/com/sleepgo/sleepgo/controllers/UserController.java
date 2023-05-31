@@ -69,7 +69,7 @@ public class UserController {
         userService.deleteUserById(userId);
     }
 
-    @DeleteMapping("/delete/{username}")
+    @DeleteMapping("/{username}")
     public void deleteUserByUsername(@PathVariable("username") String username, @RequestHeader("custom-token") String token) throws UserNotFoundException, InvalidTokenException {
         if (!authenticationService.checkAuthenticationSessionExists(username)) {
             throw new SessionException("Session does not exist");
