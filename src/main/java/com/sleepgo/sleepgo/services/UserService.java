@@ -62,4 +62,15 @@ public class UserService {
 
         userRepository.delete(user);
     }
+
+    @Transactional
+    public void deleteUserByUsername(String username) throws UserNotFoundException {
+        UserModel user = getByUsername(username);
+        int userId = user.getId();
+
+        reservationService.deleteReservationsByUserId(userId);
+        reviewService.deleteReviewByUserId(userId);
+
+        userRepository.deleteById(userId);
+}
 }

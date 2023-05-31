@@ -7,6 +7,8 @@ import com.sleepgo.sleepgo.models.AuthenticationSessionModel;
 import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.repositories.UserRepository;
 import com.sleepgo.sleepgo.services.AuthenticationService;
+import com.sleepgo.sleepgo.services.ReservationService;
+import com.sleepgo.sleepgo.services.ReviewService;
 import com.sleepgo.sleepgo.services.UserService;
 import org.apache.catalina.User;
 import org.hibernate.SessionException;
@@ -26,9 +28,18 @@ public class UserController {
     @Resource
     private AuthenticationService authenticationService;
 
-    public UserController(UserRepository userRepository, UserService userService) {
+    @Resource
+    private ReservationService reservationService;
+
+    @Resource
+    private ReviewService reviewService;
+
+    public UserController(UserRepository userRepository, UserService userService, AuthenticationService authenticationService, ReservationService reservationService, ReviewService reviewService) {
         this.userRepository = userRepository;
         this.userService = userService;
+        this.authenticationService = authenticationService;
+        this.reservationService = reservationService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/{username}")
@@ -58,10 +69,16 @@ public class UserController {
         userService.deleteUserById(userId);
     }
 
-//    @GetMapping("/authenticateUserId")
-//    public int getAuthenticatedUserId(@RequestParam int userId) throws UserNotFoundException {
-//        int authenticatedUserId = authenticationService.getAuthenticatedUserId(userId);
-//        return authenticatedUserId;
-//    }
+    @DeleteMapping("/delete/{username}")
+    public void deleteUserByUsername(@PathVariable("username") String username, @RequestHeader("custom-token") String token) throws UserNotFoundException, InvalidTokenException {
+        if (!authenticationService.checkAuthenticationSessionExists(username)) {
+            throw new SessionException("Session does not exist");
+        }
+        if (authenticationService.checkAuthenticationToken(username, token)) {
+            userService.deleteUserByUsername(username);
+        } else {
+            throw new InvalidTokenException("The token is invalid");
+        }
+    }
 
 }
