@@ -1,9 +1,14 @@
 package com.sleepgo.sleepgo.controllers;
 
+import com.sleepgo.sleepgo.exceptions.InvalidTokenException;
 import com.sleepgo.sleepgo.exceptions.ReservationNotFoundException;
+import com.sleepgo.sleepgo.exceptions.UserNotFoundException;
 import com.sleepgo.sleepgo.models.ReservationModel;
+import com.sleepgo.sleepgo.models.ReviewModel;
 import com.sleepgo.sleepgo.repositories.ReservationRepository;
+import com.sleepgo.sleepgo.services.AuthenticationService;
 import com.sleepgo.sleepgo.services.ReservationService;
+import org.hibernate.SessionException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -11,9 +16,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
+@CrossOrigin(origins = "*")
 public class ReservationController {
     @Resource
     private ReservationService reservationService;
+
+    @Resource
+    private AuthenticationService authenticationService;
     @PostMapping
     public ReservationModel createReservation(@RequestBody ReservationModel reservation) {
         return reservationService.createReservation(reservation);
@@ -24,10 +33,10 @@ public class ReservationController {
         return reservationService.getAllReservations();
     }
 
-    @GetMapping("/{id}")
-    public ReservationModel getReservationById(@PathVariable(value = "id") int id) throws ReservationNotFoundException {
-        return reservationService.getReservationById(id);
-    }
+//    @GetMapping("/{id}")
+//    public ReservationModel getReservationById(@PathVariable(value = "id") int id) throws ReservationNotFoundException {
+//        return reservationService.getReservationById(id);
+//    }
 
     @PutMapping("/{id}")
     public ReservationModel updateReservation(@PathVariable(value = "id") int id, @RequestBody ReservationModel reservationDetails) throws ReservationNotFoundException {
@@ -37,6 +46,18 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     public void deleteReservation(@PathVariable(value = "id") int id) throws ReservationNotFoundException {
         reservationService.deleteReservation(id);
+    }
+
+    @GetMapping("/{username}")
+    public List<ReservationModel> getReservationsByUsername(@PathVariable String username, @RequestHeader("custom-token") String token) throws UserNotFoundException, InvalidTokenException {
+        if (!authenticationService.checkAuthenticationSessionExists(username)) {
+            throw new SessionException("Session does not exist");
+        }
+        if (authenticationService.checkAuthenticationToken(username, token)) {
+            return reservationService.getReservationByUsername(username);
+        } else {
+            throw new InvalidTokenException("The token is invalid");
+        }
     }
 
 }

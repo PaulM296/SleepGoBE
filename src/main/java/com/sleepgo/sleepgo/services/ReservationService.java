@@ -2,8 +2,12 @@ package com.sleepgo.sleepgo.services;
 
 import com.sleepgo.sleepgo.exceptions.ReservationNotFoundException;
 import com.sleepgo.sleepgo.exceptions.RoomNotFoundException;
+import com.sleepgo.sleepgo.exceptions.UserNotFoundException;
 import com.sleepgo.sleepgo.models.ReservationModel;
+import com.sleepgo.sleepgo.models.ReviewModel;
+import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.repositories.ReservationRepository;
+import com.sleepgo.sleepgo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +18,9 @@ import java.util.Optional;
 public class ReservationService {
     @Resource
     private ReservationRepository reservationRepository;
+
+    @Resource
+    private UserRepository userRepository;
 
     public ReservationModel createReservation(ReservationModel reservation) {
         return reservationRepository.save(reservation);
@@ -51,5 +58,14 @@ public class ReservationService {
 
     public void deleteReservationsByUserId(int userId) {
         reservationRepository.deleteByUserId(userId);
+    }
+
+    public List<ReservationModel> getReservationByUsername(String username) throws UserNotFoundException {
+        List<UserModel> users = userRepository.findByUsername(username);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException(String.format("The user with the %s username does not exist", username));
+        }
+        int userId = users.get(0).getId();
+        return reservationRepository.findByUserId(userId);
     }
 }
