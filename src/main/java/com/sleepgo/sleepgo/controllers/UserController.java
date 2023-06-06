@@ -64,10 +64,10 @@ public class UserController {
         throw new InvalidTokenException("The token is invalid");
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable("id") int userId) throws UserNotFoundException {
-        userService.deleteUserById(userId);
-    }
+//    @DeleteMapping("/{id}")
+//    public void deleteUserById(@PathVariable("id") int userId) throws UserNotFoundException {
+//        userService.deleteUserById(userId);
+//    }
 
     @DeleteMapping("/{username}")
     public void deleteUserByUsername(@PathVariable("username") String username, @RequestHeader("custom-token") String token) throws UserNotFoundException, InvalidTokenException {
