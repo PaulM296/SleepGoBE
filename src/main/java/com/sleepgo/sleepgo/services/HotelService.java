@@ -29,6 +29,8 @@ public class HotelService {
         hotel.setCity(updatedHotel.getCity());
         hotel.setAddress(updatedHotel.getAddress());
         hotel.setZipCode(updatedHotel.getZipCode());
+        hotel.setLongitude(updatedHotel.getLongitude());
+        hotel.setLatitude(updatedHotel.getLatitude());
         return hotelRepository.save(hotel);
     }
 

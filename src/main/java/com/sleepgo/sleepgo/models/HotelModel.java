@@ -25,4 +25,6 @@ public class HotelModel {
     private String city;
     private String address;
     private String zipCode;
+    private Double latitude;
+    private Double longitude;
 }
