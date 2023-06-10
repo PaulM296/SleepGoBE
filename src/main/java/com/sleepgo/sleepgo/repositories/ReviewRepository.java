@@ -10,9 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<ReviewModel, Integer> {
-//    ReviewModel save(ReviewModel review);
     List<ReviewModel> findByHotelId(int hotelId);
-    List<ReviewModel> findByRoomId(int roomId);
 
     List<ReviewModel> findByUserId(int userId);
 

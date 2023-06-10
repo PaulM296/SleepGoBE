@@ -25,10 +25,6 @@ public class ReviewService {
         return reviewRepository.findByHotelId(hotelId);
     }
 
-    public List<ReviewModel> getReviewsByRoomId(int roomId) throws RoomNotFoundException {
-        return reviewRepository.findByRoomId(roomId);
-    }
-
     public List<ReviewModel> getReviewsByReviewId(int reviewId) throws ReviewNotFoundException {
         return reviewRepository.findByReviewId(reviewId);
     }

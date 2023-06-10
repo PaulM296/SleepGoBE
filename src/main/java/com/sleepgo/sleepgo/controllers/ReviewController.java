@@ -3,8 +3,10 @@ package com.sleepgo.sleepgo.controllers;
 import com.sleepgo.sleepgo.exceptions.*;
 import com.sleepgo.sleepgo.models.ReservationModel;
 import com.sleepgo.sleepgo.models.ReviewModel;
+import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.services.AuthenticationService;
 import com.sleepgo.sleepgo.services.ReviewService;
+import com.sleepgo.sleepgo.services.UserService;
 import org.hibernate.SessionException;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,19 +22,25 @@ public class ReviewController {
 
     @Resource
     private AuthenticationService authenticationService;
+
+    @Resource
+    private UserService userService;
+
     @PostMapping
-    public ReviewModel createReview(@RequestBody ReviewModel review) {
+    public ReviewModel createReview(@RequestBody ReviewModel review, @RequestHeader("custom-token") String token) throws UserNotFoundException, InvalidTokenException {
+        String username = authenticationService.getLoggedInUsername(token);
+        UserModel user = userService.getByUsername(username);
+        int userId = user.getId();
+
+        review.setUserId(userId);
+
         return reviewService.saveReview(review);
     }
+
 
     @GetMapping("/hotel/{hotelId}")
     public List<ReviewModel> getReviewsByHotelId(@PathVariable int hotelId) throws HotelNotFoundException {
         return reviewService.getReviewsByHotelId(hotelId);
-    }
-
-    @GetMapping("/room/{roomId}")
-    public List<ReviewModel> getReviewsByRoomId(@PathVariable int roomId) throws RoomNotFoundException {
-        return reviewService.getReviewsByRoomId(roomId);
     }
 
     @DeleteMapping("/{reviewId}")
@@ -52,8 +60,4 @@ public class ReviewController {
         }
     }
 
-//    @GetMapping("/{reviewId}")
-//    public List<ReviewModel> getReviewsByReviewId(@PathVariable int reviewId) throws ReviewNotFoundException {
-//        return reviewService.getReviewsByReviewId(reviewId);
-//    }
 }

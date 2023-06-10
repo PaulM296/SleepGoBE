@@ -100,4 +100,17 @@ public class AuthenticationService {
         List<UserModel> resultEmail = userRepository.findByEmail(email);
         return resultEmail.size() != 0;
     }
+
+    public String getLoggedInUsername(String token) throws UserNotFoundException {
+        List<AuthenticationSessionModel> activeSessions = authenticationSessionRepository.findAll().stream()
+                .filter(x -> x.getToken().equals(token))
+                .collect(Collectors.toList());
+
+        if (activeSessions.isEmpty()) {
+            throw new UserNotFoundException("User not found for the given token");
+        }
+
+        return activeSessions.get(0).getUsername();
+    }
+
 }
