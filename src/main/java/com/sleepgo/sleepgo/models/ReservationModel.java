@@ -25,4 +25,6 @@ public class ReservationModel {
     private LocalDate checkOutDate;
     private int price;
     private String status;
+    @Column(name = "hotel_id")
+    private int hotelId;
 }

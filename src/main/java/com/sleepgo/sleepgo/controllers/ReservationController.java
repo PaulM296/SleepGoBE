@@ -5,9 +5,12 @@ import com.sleepgo.sleepgo.exceptions.ReservationNotFoundException;
 import com.sleepgo.sleepgo.exceptions.UserNotFoundException;
 import com.sleepgo.sleepgo.models.ReservationModel;
 import com.sleepgo.sleepgo.models.ReviewModel;
+import com.sleepgo.sleepgo.models.UserModel;
 import com.sleepgo.sleepgo.repositories.ReservationRepository;
 import com.sleepgo.sleepgo.services.AuthenticationService;
 import com.sleepgo.sleepgo.services.ReservationService;
+import com.sleepgo.sleepgo.services.UserService;
+import org.apache.catalina.User;
 import org.hibernate.SessionException;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +26,22 @@ public class ReservationController {
 
     @Resource
     private AuthenticationService authenticationService;
+
+    @Resource
+    private UserService userService;
+//    @PostMapping
+//    public ReservationModel createReservation(@RequestBody ReservationModel reservation) {
+//        return reservationService.createReservation(reservation);
+//    }
+
     @PostMapping
-    public ReservationModel createReservation(@RequestBody ReservationModel reservation) {
+    public ReservationModel createReservation(@RequestBody ReservationModel reservation, @RequestHeader("custom-token") String token) throws UserNotFoundException, InvalidTokenException {
+        String username = authenticationService.getLoggedInUsername(token);
+        UserModel user = userService.getByUsername(username);
+        int userId = user.getId();
+
+        reservation.setUserId(userId);
+
         return reservationService.createReservation(reservation);
     }
 
@@ -32,11 +49,6 @@ public class ReservationController {
     public List<ReservationModel> getAllReservations() {
         return reservationService.getAllReservations();
     }
-
-//    @GetMapping("/{id}")
-//    public ReservationModel getReservationById(@PathVariable(value = "id") int id) throws ReservationNotFoundException {
-//        return reservationService.getReservationById(id);
-//    }
 
     @PutMapping("/{id}")
     public ReservationModel updateReservation(@PathVariable(value = "id") int id, @RequestBody ReservationModel reservationDetails) throws ReservationNotFoundException {
