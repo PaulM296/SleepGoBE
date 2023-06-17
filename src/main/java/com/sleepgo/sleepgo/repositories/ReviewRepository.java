@@ -19,4 +19,6 @@ public interface ReviewRepository extends JpaRepository<ReviewModel, Integer> {
     List<ReviewModel> deleteById(int reviewId);
 
     List<ReviewModel> deleteByUserId(int userId);
+
+    List<ReviewModel> deleteByHotelId(int hotelId);
 }

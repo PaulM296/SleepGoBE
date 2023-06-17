@@ -60,6 +60,10 @@ public class RoomService {
         }
     }
 
+    public void deleteRoomsByHotel(int hotelId) throws HotelNotFoundException {
+        roomRepository.deleteByHotelId(hotelId);
+    }
+
     public List<RoomModel> findAllRoomsByRoomType(String roomType) throws RoomTypeNotFound {
         return roomRepository.findByRoomType(roomType);
     }

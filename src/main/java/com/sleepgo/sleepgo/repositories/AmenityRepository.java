@@ -12,4 +12,6 @@ public interface AmenityRepository extends JpaRepository<AmenitiesModel, Integer
     Optional<AmenitiesModel> findByAmenityId(int amenityId);
 
     List<AmenitiesModel> getAmenitiesByAmenityId(int amenityId);
+
+    List<AmenitiesModel> deleteByHotelId(int hotelId);
 }

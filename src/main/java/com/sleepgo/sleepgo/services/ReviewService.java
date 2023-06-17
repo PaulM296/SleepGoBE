@@ -37,6 +37,10 @@ public class ReviewService {
         reviewRepository.deleteByUserId(userId);
     }
 
+    public void deleteReviewByHotel(int hotelId) throws HotelNotFoundException{
+        reviewRepository.deleteByHotelId(hotelId);
+    }
+
     public List<ReviewModel> getReviewsByUsername(String username) throws UserNotFoundException {
         List<UserModel> users = userRepository.findByUsername(username);
         if (users.isEmpty()) {

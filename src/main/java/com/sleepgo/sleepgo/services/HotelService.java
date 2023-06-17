@@ -2,16 +2,22 @@ package com.sleepgo.sleepgo.services;
 
 import com.sleepgo.sleepgo.exceptions.HotelNotFoundException;
 import com.sleepgo.sleepgo.models.HotelModel;
+import com.sleepgo.sleepgo.repositories.AmenityRepository;
 import com.sleepgo.sleepgo.repositories.HotelRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class HotelService {
+    @Resource
+    private AmenityService amenityService;
+    @Resource
+    private ReviewService reviewService;
     @Resource
     private HotelRepository hotelRepository;
 
@@ -46,9 +52,13 @@ public class HotelService {
     public List<HotelModel> getAllHotels() {
         return hotelRepository.findAll();
     }
-
+    @Transactional
     public void deleteHotelById(int hotelId) throws HotelNotFoundException {
         HotelModel hotel = getHotelById(hotelId);
+
+        amenityService.deleteAmenityByHotel(hotelId);
+        reviewService.deleteReviewByHotel(hotelId);
+
         hotelRepository.delete(hotel);
     }
 }

@@ -11,4 +11,6 @@ public interface RoomRepository extends JpaRepository<RoomModel, Integer> {
     Optional<RoomModel> findByRoomId(int roomId);
     List<RoomModel> findByRoomType(String roomType);
     List<RoomModel> findByHotelId(int hotelId);
+
+    List<RoomModel> deleteByHotelId(int hotelId);
 }

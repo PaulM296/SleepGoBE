@@ -2,6 +2,7 @@ package com.sleepgo.sleepgo.services;
 
 import com.sleepgo.sleepgo.exceptions.AmenityAlreadyExistsException;
 import com.sleepgo.sleepgo.exceptions.AmenityNotFoundException;
+import com.sleepgo.sleepgo.exceptions.HotelNotFoundException;
 import com.sleepgo.sleepgo.models.AmenitiesModel;
 import com.sleepgo.sleepgo.models.RoomModel;
 import com.sleepgo.sleepgo.repositories.AmenityRepository;
@@ -38,5 +39,9 @@ public class AmenityService {
 
     public void deleteAmenity(int amenityId) throws AmenityNotFoundException {
         amenityRepository.deleteById(amenityId);
+    }
+
+    public void deleteAmenityByHotel(int hotelId) throws HotelNotFoundException {
+        amenityRepository.deleteByHotelId(hotelId);
     }
 }
